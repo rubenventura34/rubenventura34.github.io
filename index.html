@@ -16,11 +16,18 @@
     	img {
 		  /* ease | ease-in | ease-out | linear */
 		  transition: transform ease-in-out 0.3s;
+          cursor: pointer;
 		}
 		/*img:hover {
 		  transform: scale(2);
 		  z-index: 50 !important;
 		}*/
+        #imagen {
+            min-height: 400px;
+            max-height: 75vh;
+            max-width: 100%;
+        }
+        .modal-body {text-align: center;}
     </style>
   </head>
   <body class="bg-dark text-white">
@@ -148,7 +155,48 @@
                 </div>
             </div>
 
+
+            <h5 class="text-warning mt-3">Laboratorio Clínico (Práctica)</h5>
+            <div class="mt-3 owl-carousel owl-theme">
+                <div class="col">
+                    <div class="card shadow-lg">
+                        <img src="images/laboratorio1.jpeg" alt="" height="250" class="card-img-top">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card shadow-lg">
+                        <img src="images/laboratorio2.jpeg" alt="" height="250" class="card-img-top">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card shadow-lg">
+                        <img src="images/laboratorio3.jpeg" alt="" height="250" class="card-img-top">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card shadow-lg">
+                        <img src="images/laboratorio4.jpeg" alt="" height="250" class="card-img-top">
+                    </div>
+                </div>
+            </div>
+
         </section>
+    </div>
+
+    <div id="modal-imagen" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="imagen" src="" alt="">
+                </div>
+
+
+            </div>
+        </div>
     </div>
 
 
@@ -163,7 +211,18 @@
                 margin: 10,
                 autoplay: true
             });
+
+            document.querySelectorAll("img").forEach(imagen => {
+                imagen.addEventListener("click", (ev) => {
+                    console.log("Se ha hecho click en la imagen")
+                    document.querySelector("#imagen").src = ev.target.src;
+                    toggleModal();
+                });
+            })
         });
+        function toggleModal(){
+            $("#modal-imagen").modal('toggle');
+        }
     </script>
   </body>
 </html>
