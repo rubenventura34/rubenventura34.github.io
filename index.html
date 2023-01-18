@@ -88,7 +88,7 @@
       }
     </style>
   </head>
-  <body class="bg-dark text-white">
+  <body class="text-white" style="background-color: #0f172a;">
     <header>
       <div class="d-flex container gap-3 py-4 align-items-center">
         <img
@@ -162,8 +162,8 @@
             <h5>PHP</h5>
           </div>
         </div>
-
-        <h4 class="fw-bold">Proyectos Desarrollados</h4>
+		<div class="proyectos">
+			<h4 class="fw-bold">Proyectos Desarrollados</h4>
         <h5 class="text-warning">
           Sistema de Gestión de Participantes Educación Continua UGB
         </h5>
@@ -460,6 +460,8 @@
             </div>
           </div>
         </div>
+		</div>
+        
       </section>
     </div>
 
@@ -479,6 +481,93 @@
         </div>
       </div>
     </div>
+    
+    <div id="modalImagen" class="custom-modal">
+      <div class="modal__dialog">
+        <div class="dialog__header">
+          <!-- <span class="zoom out">-</span> -->
+          <!-- <span class="zoom in">+</span> -->
+          <span class="close">&#10006;</span>
+        </div>
+        <img
+          id="zoomImagen"
+          src="https://res.cloudinary.com/active-bridge/image/upload/slide1.jpg"
+          alt="zoom-img" />
+      </div>
+    </div>
+    <style>
+      .custom-modal.active {
+        display: flex;
+        position: fixed;
+        z-index: 5;
+      }
+      .custom-modal {
+        display: none;
+        position: absolute;
+        height: 100vh;
+        width: 100vw;
+        background-color: #000000aa;
+        top: 0;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      .dialog__header {
+        color: white;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding-bottom: 4px;
+        gap: 0.5em;
+      }
+      .dialog__header .close {
+        cursor: pointer;
+      }
+      .dialog__header .zoom {
+        cursor: pointer;
+        font-size: 1.2em;
+        font-weight: bold;
+      }
+	  #zoomImagen {
+		height: 500px;
+		max-width: 90vw;
+		object-fit: contain;
+	  }
+    </style>
+
+    <script>
+      const modalImagen = document.querySelector("#modalImagen");
+      const zoomImagen = document.querySelector("#zoomImagen");
+
+      function mostrarImagen($evt) {
+        const imgURL = $evt.target.src;
+        zoomImagen.src = imgURL;
+        modalImagen.classList.add("active");
+      }
+      function makeModal(modalElement) {
+        let zoomLevel = 0;
+        const imgHeight = 400;
+        modalElement.addEventListener("click", ($evt) => {
+          if (
+            $evt.target == modalImagen ||
+            $evt.target.classList.contains("close")
+          ) {
+            modalElement.classList.toggle("active");
+            zoomLevel = 0;
+          }
+          if ($evt.target.classList.contains("out") && zoomLevel > 0) {
+            zoomLevel--;
+            zoomImagen.height = imgHeight * (1 + zoomLevel / 10);
+          }
+          if ($evt.target.classList.contains("in") && zoomLevel < 3) {
+            zoomLevel++;
+            zoomImagen.height = imgHeight * (1 + zoomLevel / 10);
+          }
+        });
+      }
+
+      makeModal(modalImagen);
+    </script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -509,14 +598,10 @@
             },
           },
         });
-
-        document.querySelectorAll("img").forEach((imagen) => {
-          imagen.addEventListener("click", (ev) => {
-            console.log("Se ha hecho click en la imagen");
-            document.querySelector("#imagen").src = ev.target.src;
-            toggleModal();
-          });
-        });
+		document.querySelectorAll(".proyectos img").forEach(imagen => {
+			imagen.addEventListener("click", mostrarImagen);
+		})
+        
       });
       function toggleModal() {
         $("#modal-imagen").modal("toggle");
